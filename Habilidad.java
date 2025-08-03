@@ -20,7 +20,7 @@ public class Habilidad {
     public int Activartefecto(){
         Random numero = new Random();
         int x = numero.nextInt(100)+1;
-        if (0<= x && x<=30){
+        if (0<= x && x<31){
             return efecto;
         }
         else{
