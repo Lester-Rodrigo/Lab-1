@@ -5,6 +5,9 @@ import java.util.Random;
 public class Main {
     public static void main(String[] args) {
 
+        Controlador controlador = new Controlador();
+        Monstruos ganador;
+
         Habilidad h1 = new Habilidad("Torrente", 15);
         Habilidad h2 = new Habilidad("Llama incandescente", 20);
         Habilidad h3 = new Habilidad("Fertilizante", 10);
@@ -64,10 +67,10 @@ public class Main {
                     e.printStackTrace();
                 }
                 System.out.println("--------------------------------------------");
-                int l1 = n.nextInt(equipo1.size());
+                int peleador1 = n.nextInt(equipo1.size());
                     if (n1.getPokemon() == null) {
-                        n1.setPokemon(equipo1.get(l1));
-                        equipo1.remove(l1);
+                        n1.setPokemon(equipo1.get(peleador1));
+                        equipo1.remove(peleador1);
                     }
                     System.out.println("Equipo de " + n2.getNombre() + ":");
                 for(int iii = 0; iii<equipo2.size(); iii++){
@@ -77,10 +80,10 @@ public class Main {
                 } catch (InterruptedException e){
                     e.printStackTrace();
                 }
-                    int l2 = n.nextInt(equipo2.size());
+                    int peleador2 = n.nextInt(equipo2.size());
                     if (n2.getPokemon() == null) {
-                        n2.setPokemon(equipo2.get(l2));
-                        equipo2.remove(l2);
+                        n2.setPokemon(equipo2.get(peleador2));
+                        equipo2.remove(peleador2);
                     }
                     System.out.println("**************************************");
                     System.out.println("Ronda 1:");
@@ -94,144 +97,48 @@ public class Main {
                         } catch (InterruptedException e){
                             e.printStackTrace();
                         }
-                    int d1 = n.nextInt(100)+1;
-                    if (d1<51) {
-                        System.out.println(n1.getNombre() + " va a atacar al pokemon de " + n2.getNombre());
-                        try{Thread.sleep(1500);
+                    int accion1 = n.nextInt(100)+1;
+                    int accion2 = n.nextInt(100)+1;
+                    int sucORfail1 = n1.getPokemon().getHabilidad().Activartefecto();
+                    int sucORfail2 = n2.getPokemon().getHabilidad().Activartefecto();
+                    //Entrenador 1
+                   System.out.println(controlador.decision(accion1, n1, n2));
+                    try{Thread.sleep(1500);
                         } catch (InterruptedException e){
                             e.printStackTrace();
                         }
-                        if (n1.getPokemon().getTipo() == "fuego" && n2.getPokemon().getTipo() == "planta") {
-                            n1.getPokemon().setAtaque(n1.getPokemon().getAtaque() + 20);
-                            System.out.println("El ataque de " + n1.getPokemon().getNombre() + " a sido super efectivo");
+                    System.out.println(controlador.Efectividadaccion(accion1, n1.getPokemon(), n2.getPokemon(), sucORfail1));
+                    try{Thread.sleep(1500);
+                        } catch (InterruptedException e){
+                            e.printStackTrace();
                         }
-                        else if (n1.getPokemon().getTipo() == "fuego" && n2.getPokemon().getTipo() == "agua") {
-                            n1.getPokemon().setAtaque(n1.getPokemon().getAtaque() - 10);
-                            System.out.println("El ataque de " + n1.getPokemon().getNombre() + " a sido poco efectivo");
+                    //Entrenador 2
+                    System.out.println(controlador.decision(accion2, n2, n1));
+                    try{Thread.sleep(1500);
+                        } catch (InterruptedException e){
+                            e.printStackTrace();
                         }
-                        else if (n1.getPokemon().getTipo() == "planta" && n2.getPokemon().getTipo() == "agua") {
-                            n1.getPokemon().setAtaque(n1.getPokemon().getAtaque() + 20);
-                            System.out.println("El ataque de " + n1.getPokemon().getNombre() + " a sido super efectivo");
+                    System.out.println(controlador.Efectividadaccion(accion2, n2.getPokemon(), n1.getPokemon(), sucORfail2));
+                    try{Thread.sleep(1500);
+                        } catch (InterruptedException e){
+                            e.printStackTrace();
                         }
-                        else if (n1.getPokemon().getTipo() == "planta" && n2.getPokemon().getTipo() == "fuego") {
-                            n1.getPokemon().setAtaque(n1.getPokemon().getAtaque() - 10);
-                            System.out.println("El ataque de " + n1.getPokemon().getNombre() + " a sido poco efectivo");
-                        }
-                        else if (n1.getPokemon().getTipo() == "agua" && n2.getPokemon().getTipo() == "fuego") {
-                            n1.getPokemon().setAtaque(n1.getPokemon().getAtaque() + 20);
-                            System.out.println("El ataque de " + n1.getPokemon().getNombre() + " a sido super efectivo");
-                        }
-                        else if (n1.getPokemon().getTipo() == "agua" && n2.getPokemon().getTipo() == "planta") {
-                            n1.getPokemon().setAtaque(n1.getPokemon().getAtaque() - 10);
-                            System.out.println("El ataque de " + n1.getPokemon().getNombre() + " a sido poco efectivo");
-                        }
-                        else if (n1.getPokemon().getTipo() == "agua" && n2.getPokemon().getTipo() == "electrico") {
-                            n1.getPokemon().setAtaque(n1.getPokemon().getAtaque() - 10);
-                            System.out.println("El ataque de " + n1.getPokemon().getNombre() + " a sido poco efectivo");
-                        }
-                        else if (n1.getPokemon().getTipo() == "electrico" && n2.getPokemon().getTipo() == "agua") {
-                            n1.getPokemon().setAtaque(n1.getPokemon().getAtaque() + 20);
-                            System.out.println("El ataque de " + n1.getPokemon().getNombre() + " a sido super efectivo");
-                        }
-                        else{
-                            System.err.println(n2.getPokemon().getNombre() + " a evitado el ataque de " + n1.getPokemon().getNombre());
-                        }
+                    //Ver el poder de los pokemons
+                    System.out.println(controlador.Podertotal(accion1, accion2, n1.getPokemon(), n2.getPokemon(), sucORfail1, sucORfail2));
+                    //Ver el ganador
+                    ganador = controlador.jugarRonda(accion1, accion2, n1.getPokemon(), n2.getPokemon(), sucORfail1, sucORfail2);
+                    if (ganador == null) {
+                        System.out.println("La ronda terminó en un empate");
                     }
                     else{
-                        int sucORfail = n1.getPokemon().getHabilidad().Activartefecto();
-                        System.out.println(n1.getNombre() + " va a usar la habilidad especial de su pokemon");
-                        try{Thread.sleep(1500);
-                        } catch (InterruptedException e){
-                            e.printStackTrace();
-                        }
-                        n1.getPokemon().setAtaque(n1.getPokemon().getAtaque() + sucORfail);
-                        if (sucORfail != 0) {
-                            System.out.println(n1.getPokemon().getNombre() + " a activado su habilidad especial " + "¡"+ n1.getPokemon().getHabilidad().getNombre() + "!");
-                        }
-                        else {
-                            System.out.println(n1.getPokemon().getNombre() + " a fallado en activar su habilidad especial");
-                        }
-                    }
-                int d2 = n.nextInt(100)+1;
-                if (d2<51) {
-                    System.out.println(n2.getNombre() + " va a atacar al pokemon de " + n1.getNombre());
-                    try{Thread.sleep(1500);
-                        } catch (InterruptedException e){
-                            e.printStackTrace();
-                        }
-                        if (n2.getPokemon().getTipo() == "fuego" && n1.getPokemon().getTipo() == "planta") {
-                            n2.getPokemon().setAtaque(n2.getPokemon().getAtaque() + 20);
-                            System.out.println("El ataque de " + n2.getPokemon().getNombre() + " a sido super efectivo");
-                        }
-                        else if (n2.getPokemon().getTipo() == "fuego" && n1.getPokemon().getTipo() == "agua") {
-                            n2.getPokemon().setAtaque(n2.getPokemon().getAtaque() - 10);
-                            System.out.println("El ataque de " + n2.getPokemon().getNombre() + " a sido poco efectivo");
-                        }
-                        else if (n2.getPokemon().getTipo() == "planta" && n1.getPokemon().getTipo() == "agua") {
-                            n2.getPokemon().setAtaque(n2.getPokemon().getAtaque() + 20);
-                            System.out.println("El ataque de " + n2.getPokemon().getNombre() + " a sido super efectivo");
-                        }
-                        else if (n2.getPokemon().getTipo() == "planta" && n1.getPokemon().getTipo() == "fuego") {
-                            n2.getPokemon().setAtaque(n2.getPokemon().getAtaque() - 10);
-                            System.out.println("El ataque de " + n2.getPokemon().getNombre() + " a sido poco efectivo");
-                        }
-                        else if (n2.getPokemon().getTipo() == "agua" && n1.getPokemon().getTipo() == "fuego") {
-                            n2.getPokemon().setAtaque(n2.getPokemon().getAtaque() + 20);
-                            System.out.println("El ataque de " + n2.getPokemon().getNombre() + " a sido super efectivo");
-                        }
-                        else if (n2.getPokemon().getTipo() == "agua" && n1.getPokemon().getTipo() == "planta") {
-                            n2.getPokemon().setAtaque(n2.getPokemon().getAtaque() - 10);
-                            System.out.println("El ataque de " + n2.getPokemon().getNombre() + " a sido poco efectivo");
-                        }
-                        else if (n2.getPokemon().getTipo() == "agua" && n1.getPokemon().getTipo() == "electrico") {
-                            n2.getPokemon().setAtaque(n2.getPokemon().getAtaque() - 10);
-                            System.out.println("El ataque de " + n2.getPokemon().getNombre() + " a sido poco efectivo");
-                        }
-                        else if (n2.getPokemon().getTipo() == "electrico" && n1.getPokemon().getTipo() == "agua") {
-                            n2.getPokemon().setAtaque(n2.getPokemon().getAtaque() + 20);
-                            System.out.println("El ataque de " + n2.getPokemon().getNombre() + " a sido super efectivo");
-                        }
-                        else{
-                            System.err.println(n1.getPokemon().getNombre() + " a evitado el ataque de " + n2.getPokemon().getNombre());
-                        }
-                    }
-                    else{
-                        int sucORfail = n2.getPokemon().getHabilidad().Activartefecto();
-                        System.out.println(n2.getNombre() + " va a usar la habilidad especial de su pokemon");
-                        try{Thread.sleep(1500);
-                        } catch (InterruptedException e){
-                            e.printStackTrace();
-                        }
-                        n2.getPokemon().setAtaque(n2.getPokemon().getAtaque() + sucORfail);
-                        if (sucORfail != 0) {
-                            System.out.println(n2.getPokemon().getNombre() + " a activado su habilidad especial " + "¡"+ n2.getPokemon().getHabilidad().getNombre() + "!");
-                        }
-                        else {
-                            System.out.println(n2.getPokemon().getNombre() + " a fallado en activar su habilidad especial");
-                        }
-                    }
-                    int TP1 = n1.getPokemon().getAtaque() + n1.getPokemon().getDefensa();
-                    int TP2 = n2.getPokemon().getAtaque() + n2.getPokemon().getDefensa();
-                    try{Thread.sleep(1500);
-                        } catch (InterruptedException e){
-                            e.printStackTrace();
-                        }
-                    System.out.println("El poder total de " + n1.getPokemon().getNombre() + " es de " + TP1);
-                    System.out.println("El poder total de " + n2.getPokemon().getNombre() + " es de " + TP2);
-                    try{Thread.sleep(1500);
-                        } catch (InterruptedException e){
-                            e.printStackTrace();
-                        }
-                    if(TP1 > TP2){
+                    if(ganador.getNombre() == n1.getPokemon().getNombre()){
                         System.out.println("El ganor de la ronda es " + n1.getNombre());
                         N1ganado += 1 ;
                     }
-                    else if (TP1 < TP2){
+                    else if (ganador.getNombre() == n2.getPokemon().getNombre()){
                         System.out.println("El ganor de la ronda es " + n2.getNombre());
                         N2ganado += 1;
                     }
-                    else{
-                        System.out.println("La ronda terminó en un empate");
                     }
                     break;
                 
@@ -266,144 +173,48 @@ public class Main {
                         } catch (InterruptedException e){
                             e.printStackTrace();
                         }
-                    int d3 = n.nextInt(100)+1;
-                    if (d3<51) {
-                        System.out.println(n1.getNombre() + " va a atacar al pokemon de " + n2.getNombre());
-                        try{Thread.sleep(1500);
+                    accion1 = n.nextInt(100)+1;
+                    accion2 = n.nextInt(100)+1;
+                    sucORfail1 = n1.getPokemon().getHabilidad().Activartefecto();
+                    sucORfail2 = n2.getPokemon().getHabilidad().Activartefecto();
+                    //Entrenador 1
+                   System.out.println(controlador.decision(accion1, n1, n2));
+                    try{Thread.sleep(1500);
                         } catch (InterruptedException e){
                             e.printStackTrace();
                         }
-                        if (n1.getPokemon().getTipo() == "fuego" && n2.getPokemon().getTipo() == "planta") {
-                            n1.getPokemon().setAtaque(n1.getPokemon().getAtaque() + 20);
-                            System.out.println("El ataque de " + n1.getPokemon().getNombre() + " a sido super efectivo");
+                    System.out.println(controlador.Efectividadaccion(accion1, n1.getPokemon(), n2.getPokemon(), sucORfail1));
+                    try{Thread.sleep(1500);
+                        } catch (InterruptedException e){
+                            e.printStackTrace();
                         }
-                        else if (n1.getPokemon().getTipo() == "fuego" && n2.getPokemon().getTipo() == "agua") {
-                            n1.getPokemon().setAtaque(n1.getPokemon().getAtaque() - 10);
-                            System.out.println("El ataque de " + n1.getPokemon().getNombre() + " a sido poco efectivo");
+                    //Entrenador 2
+                    System.out.println(controlador.decision(accion2, n2, n1));
+                    try{Thread.sleep(1500);
+                        } catch (InterruptedException e){
+                            e.printStackTrace();
                         }
-                        else if (n1.getPokemon().getTipo() == "planta" && n2.getPokemon().getTipo() == "agua") {
-                            n1.getPokemon().setAtaque(n1.getPokemon().getAtaque() + 20);
-                            System.out.println("El ataque de " + n1.getPokemon().getNombre() + " a sido super efectivo");
+                    System.out.println(controlador.Efectividadaccion(accion2, n2.getPokemon(), n1.getPokemon(), sucORfail2));
+                    try{Thread.sleep(1500);
+                        } catch (InterruptedException e){
+                            e.printStackTrace();
                         }
-                        else if (n1.getPokemon().getTipo() == "planta" && n2.getPokemon().getTipo() == "fuego") {
-                            n1.getPokemon().setAtaque(n1.getPokemon().getAtaque() - 10);
-                            System.out.println("El ataque de " + n1.getPokemon().getNombre() + " a sido poco efectivo");
-                        }
-                        else if (n1.getPokemon().getTipo() == "agua" && n2.getPokemon().getTipo() == "fuego") {
-                            n1.getPokemon().setAtaque(n1.getPokemon().getAtaque() + 20);
-                            System.out.println("El ataque de " + n1.getPokemon().getNombre() + " a sido super efectivo");
-                        }
-                        else if (n1.getPokemon().getTipo() == "agua" && n2.getPokemon().getTipo() == "planta") {
-                            n1.getPokemon().setAtaque(n1.getPokemon().getAtaque() - 10);
-                            System.out.println("El ataque de " + n1.getPokemon().getNombre() + " a sido poco efectivo");
-                        }
-                        else if (n1.getPokemon().getTipo() == "agua" && n2.getPokemon().getTipo() == "electrico") {
-                            n1.getPokemon().setAtaque(n1.getPokemon().getAtaque() - 10);
-                            System.out.println("El ataque de " + n1.getPokemon().getNombre() + " a sido poco efectivo");
-                        }
-                        else if (n1.getPokemon().getTipo() == "electrico" && n2.getPokemon().getTipo() == "agua") {
-                            n1.getPokemon().setAtaque(n1.getPokemon().getAtaque() + 20);
-                            System.out.println("El ataque de " + n1.getPokemon().getNombre() + " a sido super efectivo");
-                        }
-                        else{
-                            System.err.println(n2.getPokemon().getNombre() + " a evitado el ataque de " + n1.getPokemon().getNombre());
-                        }
+                    //Ver el poder de los pokemons
+                    System.out.println(controlador.Podertotal(accion1, accion2, n1.getPokemon(), n2.getPokemon(), sucORfail1, sucORfail2));
+                    //Ver el ganador
+                    ganador = controlador.jugarRonda(accion1, accion2, n1.getPokemon(), n2.getPokemon(), sucORfail1, sucORfail2);
+                    if (ganador == null) {
+                        System.out.println("La ronda terminó en un empate");
                     }
                     else{
-                        int sucORfail = n1.getPokemon().getHabilidad().Activartefecto();
-                        System.out.println(n1.getNombre() + " va a usar la habilidad especial de su pokemon");
-                        try{Thread.sleep(1500);
-                        } catch (InterruptedException e){
-                            e.printStackTrace();
-                        }
-                        n1.getPokemon().setAtaque(n1.getPokemon().getAtaque() + sucORfail);
-                        if (sucORfail != 0) {
-                            System.out.println(n1.getPokemon().getNombre() + " a activado su habilidad especial " + "¡"+ n1.getPokemon().getHabilidad().getNombre() + "!");
-                        }
-                        else {
-                            System.out.println(n1.getPokemon().getNombre() + " a fallado en activar su habilidad especial");
-                        }
-                    }
-                int d4 = n.nextInt(100)+1;
-                if (d4<51) {
-                    System.out.println(n2.getNombre() + " va a atacar al pokemon de " + n1.getNombre());
-                    try{Thread.sleep(1500);
-                        } catch (InterruptedException e){
-                            e.printStackTrace();
-                        }
-                        if (n2.getPokemon().getTipo() == "fuego" && n1.getPokemon().getTipo() == "planta") {
-                            n2.getPokemon().setAtaque(n2.getPokemon().getAtaque() + 20);
-                            System.out.println("El ataque de " + n2.getPokemon().getNombre() + " a sido super efectivo");
-                        }
-                        else if (n2.getPokemon().getTipo() == "fuego" && n1.getPokemon().getTipo() == "agua") {
-                            n2.getPokemon().setAtaque(n2.getPokemon().getAtaque() - 10);
-                            System.out.println("El ataque de " + n2.getPokemon().getNombre() + " a sido poco efectivo");
-                        }
-                        else if (n2.getPokemon().getTipo() == "planta" && n1.getPokemon().getTipo() == "agua") {
-                            n2.getPokemon().setAtaque(n2.getPokemon().getAtaque() + 20);
-                            System.out.println("El ataque de " + n2.getPokemon().getNombre() + " a sido super efectivo");
-                        }
-                        else if (n2.getPokemon().getTipo() == "planta" && n1.getPokemon().getTipo() == "fuego") {
-                            n2.getPokemon().setAtaque(n2.getPokemon().getAtaque() - 10);
-                            System.out.println("El ataque de " + n2.getPokemon().getNombre() + " a sido poco efectivo");
-                        }
-                        else if (n2.getPokemon().getTipo() == "agua" && n1.getPokemon().getTipo() == "fuego") {
-                            n2.getPokemon().setAtaque(n2.getPokemon().getAtaque() + 20);
-                            System.out.println("El ataque de " + n2.getPokemon().getNombre() + " a sido super efectivo");
-                        }
-                        else if (n2.getPokemon().getTipo() == "agua" && n1.getPokemon().getTipo() == "planta") {
-                            n2.getPokemon().setAtaque(n2.getPokemon().getAtaque() - 10);
-                            System.out.println("El ataque de " + n2.getPokemon().getNombre() + " a sido poco efectivo");
-                        }
-                        else if (n2.getPokemon().getTipo() == "agua" && n1.getPokemon().getTipo() == "electrico") {
-                            n2.getPokemon().setAtaque(n2.getPokemon().getAtaque() - 10);
-                            System.out.println("El ataque de " + n2.getPokemon().getNombre() + " a sido poco efectivo");
-                        }
-                        else if (n2.getPokemon().getTipo() == "electrico" && n1.getPokemon().getTipo() == "agua") {
-                            n2.getPokemon().setAtaque(n2.getPokemon().getAtaque() + 20);
-                            System.out.println("El ataque de " + n2.getPokemon().getNombre() + " a sido super efectivo");
-                        }
-                        else{
-                            System.err.println(n1.getPokemon().getNombre() + " a evitado el ataque de " + n2.getPokemon().getNombre());
-                        }
-                    }
-                    else{
-                        int sucORfail = n2.getPokemon().getHabilidad().Activartefecto();
-                        System.out.println(n2.getNombre() + " va a usar la habilidad especial de su pokemon");
-                        try{Thread.sleep(1500);
-                        } catch (InterruptedException e){
-                            e.printStackTrace();
-                        }
-                        n2.getPokemon().setAtaque(n2.getPokemon().getAtaque() + sucORfail);
-                        if (sucORfail != 0) {
-                            System.out.println(n2.getPokemon().getNombre() + " a activado su habilidad especial " + "¡"+ n2.getPokemon().getHabilidad().getNombre() + "!");
-                        }
-                        else {
-                            System.out.println(n2.getPokemon().getNombre() + " a fallado en activar su habilidad especial");
-                        }
-                    }
-                    int TP3 = n1.getPokemon().getAtaque() + n1.getPokemon().getDefensa();
-                    int TP4 = n2.getPokemon().getAtaque() + n2.getPokemon().getDefensa();
-                    try{Thread.sleep(1500);
-                        } catch (InterruptedException e){
-                            e.printStackTrace();
-                        }
-                    System.out.println("El poder total de " + n1.getPokemon().getNombre() + " es de " + TP3);
-                    System.out.println("El poder total de " + n2.getPokemon().getNombre() + " es de " + TP4);
-                    try{Thread.sleep(1500);
-                        } catch (InterruptedException e){
-                            e.printStackTrace();
-                        }
-                    if(TP3 > TP4){
+                    if(ganador.getNombre() == n1.getPokemon().getNombre()){
                         System.out.println("El ganor de la ronda es " + n1.getNombre());
                         N1ganado += 1 ;
                     }
-                    else if (TP3 < TP4){
+                    else if (ganador.getNombre() == n2.getPokemon().getNombre()){
                         System.out.println("El ganor de la ronda es " + n2.getNombre());
                         N2ganado += 1;
                     }
-                    else{
-                        System.out.println("La ronda terminó en un empate");
                     }
                     break;
 
@@ -433,153 +244,57 @@ public class Main {
                     System.out.println("**************************************");
                     System.out.println("Ronda 3:");
                     System.out.println(n1.getNombre()+ " a elegido a " + n1.getPokemon().getNombre());
-                    try{Thread.sleep(1000);
-                    } catch (InterruptedException e){
-                        e.printStackTrace();
-                    }
+                    try{Thread.sleep(1500);
+                        } catch (InterruptedException e){
+                            e.printStackTrace();
+                        }
                     System.out.println(n2.getNombre()+ " a elegido a " + n2.getPokemon().getNombre());
-                    try{Thread.sleep(1000);
-                    } catch (InterruptedException e){
-                        e.printStackTrace();
-                    }
-                    int d5 = n.nextInt(100)+1;
-                    if (d5<51) {
-                        System.out.println(n1.getNombre() + " va a atacar al pokemon de " + n2.getNombre());
-                        try{Thread.sleep(1000);
+                    try{Thread.sleep(1500);
                         } catch (InterruptedException e){
                             e.printStackTrace();
                         }
-                        if (n1.getPokemon().getTipo() == "fuego" && n2.getPokemon().getTipo() == "planta") {
-                            n1.getPokemon().setAtaque(n1.getPokemon().getAtaque() + 20);
-                            System.out.println("El ataque de " + n1.getPokemon().getNombre() + " a sido super efectivo");
+                    accion1 = n.nextInt(100)+1;
+                    accion2 = n.nextInt(100)+1;
+                    sucORfail1 = n1.getPokemon().getHabilidad().Activartefecto();
+                    sucORfail2 = n2.getPokemon().getHabilidad().Activartefecto();
+                    //Entrenador 1
+                   System.out.println(controlador.decision(accion1, n1, n2));
+                    try{Thread.sleep(1500);
+                        } catch (InterruptedException e){
+                            e.printStackTrace();
                         }
-                        else if (n1.getPokemon().getTipo() == "fuego" && n2.getPokemon().getTipo() == "agua") {
-                            n1.getPokemon().setAtaque(n1.getPokemon().getAtaque() - 10);
-                            System.out.println("El ataque de " + n1.getPokemon().getNombre() + " a sido poco efectivo");
+                    System.out.println(controlador.Efectividadaccion(accion1, n1.getPokemon(), n2.getPokemon(), sucORfail1));
+                    try{Thread.sleep(1500);
+                        } catch (InterruptedException e){
+                            e.printStackTrace();
                         }
-                        else if (n1.getPokemon().getTipo() == "planta" && n2.getPokemon().getTipo() == "agua") {
-                            n1.getPokemon().setAtaque(n1.getPokemon().getAtaque() + 20);
-                            System.out.println("El ataque de " + n1.getPokemon().getNombre() + " a sido super efectivo");
+                    //Entrenador 2
+                    System.out.println(controlador.decision(accion2, n2, n1));
+                    try{Thread.sleep(1500);
+                        } catch (InterruptedException e){
+                            e.printStackTrace();
                         }
-                        else if (n1.getPokemon().getTipo() == "planta" && n2.getPokemon().getTipo() == "fuego") {
-                            n1.getPokemon().setAtaque(n1.getPokemon().getAtaque() - 10);
-                            System.out.println("El ataque de " + n1.getPokemon().getNombre() + " a sido poco efectivo");
+                    System.out.println(controlador.Efectividadaccion(accion2, n2.getPokemon(), n1.getPokemon(), sucORfail2));
+                    try{Thread.sleep(1500);
+                        } catch (InterruptedException e){
+                            e.printStackTrace();
                         }
-                        else if (n1.getPokemon().getTipo() == "agua" && n2.getPokemon().getTipo() == "fuego") {
-                            n1.getPokemon().setAtaque(n1.getPokemon().getAtaque() + 20);
-                            System.out.println("El ataque de " + n1.getPokemon().getNombre() + " a sido super efectivo");
-                        }
-                        else if (n1.getPokemon().getTipo() == "agua" && n2.getPokemon().getTipo() == "planta") {
-                            n1.getPokemon().setAtaque(n1.getPokemon().getAtaque() - 10);
-                            System.out.println("El ataque de " + n1.getPokemon().getNombre() + " a sido poco efectivo");
-                        }
-                        else if (n1.getPokemon().getTipo() == "agua" && n2.getPokemon().getTipo() == "electrico") {
-                            n1.getPokemon().setAtaque(n1.getPokemon().getAtaque() - 10);
-                            System.out.println("El ataque de " + n1.getPokemon().getNombre() + " a sido poco efectivo");
-                        }
-                        else if (n1.getPokemon().getTipo() == "electrico" && n2.getPokemon().getTipo() == "agua") {
-                            n1.getPokemon().setAtaque(n1.getPokemon().getAtaque() + 20);
-                            System.out.println("El ataque de " + n1.getPokemon().getNombre() + " a sido super efectivo");
-                        }
-                        else{
-                            System.err.println(n2.getPokemon().getNombre() + " a evitado el ataque de " + n1.getPokemon().getNombre());
-                        }
+                    //Ver el poder de los pokemons
+                    System.out.println(controlador.Podertotal(accion1, accion2, n1.getPokemon(), n2.getPokemon(), sucORfail1, sucORfail2));
+                    //Ver el ganador
+                    ganador = controlador.jugarRonda(accion1, accion2, n1.getPokemon(), n2.getPokemon(), sucORfail1, sucORfail2);
+                    if (ganador == null) {
+                        System.out.println("La ronda terminó en un empate");
                     }
                     else{
-                        int sucORfail = n1.getPokemon().getHabilidad().Activartefecto();
-                        System.out.println(n1.getNombre() + " va a usar la habilidad especial de su pokemon");
-                        try{Thread.sleep(1000);
-                        } catch (InterruptedException e){
-                            e.printStackTrace();
-                        }
-                        n1.getPokemon().setAtaque(n1.getPokemon().getAtaque() + sucORfail);
-                        if (sucORfail != 0) {
-                            System.out.println(n1.getPokemon().getNombre() + " a activado su habilidad especial " + "¡"+ n1.getPokemon().getHabilidad().getNombre() + "!");
-                        }
-                        else {
-                            System.out.println(n1.getPokemon().getNombre() + " a fallado en activar su habilidad especial");
-                        }
-                    }
-                int d6= n.nextInt(100)+1;
-                if (d6<51) {
-                    System.out.println(n2.getNombre() + " va a atacar al pokemon de " + n1.getNombre());
-                    try{Thread.sleep(1000);
-                    } catch (InterruptedException e){
-                        e.printStackTrace();
-                    }
-                        if (n2.getPokemon().getTipo() == "fuego" && n1.getPokemon().getTipo() == "planta") {
-                            n2.getPokemon().setAtaque(n2.getPokemon().getAtaque() + 20);
-                            System.out.println("El ataque de " + n2.getPokemon().getNombre() + " a sido super efectivo");
-                        }
-                        else if (n2.getPokemon().getTipo() == "fuego" && n1.getPokemon().getTipo() == "agua") {
-                            n2.getPokemon().setAtaque(n2.getPokemon().getAtaque() - 10);
-                            System.out.println("El ataque de " + n2.getPokemon().getNombre() + " a sido poco efectivo");
-                        }
-                        else if (n2.getPokemon().getTipo() == "planta" && n1.getPokemon().getTipo() == "agua") {
-                            n2.getPokemon().setAtaque(n2.getPokemon().getAtaque() + 20);
-                            System.out.println("El ataque de " + n2.getPokemon().getNombre() + " a sido super efectivo");
-                        }
-                        else if (n2.getPokemon().getTipo() == "planta" && n1.getPokemon().getTipo() == "fuego") {
-                            n2.getPokemon().setAtaque(n2.getPokemon().getAtaque() - 10);
-                            System.out.println("El ataque de " + n2.getPokemon().getNombre() + " a sido poco efectivo");
-                        }
-                        else if (n2.getPokemon().getTipo() == "agua" && n1.getPokemon().getTipo() == "fuego") {
-                            n2.getPokemon().setAtaque(n2.getPokemon().getAtaque() + 20);
-                            System.out.println("El ataque de " + n2.getPokemon().getNombre() + " a sido super efectivo");
-                        }
-                        else if (n2.getPokemon().getTipo() == "agua" && n1.getPokemon().getTipo() == "planta") {
-                            n2.getPokemon().setAtaque(n2.getPokemon().getAtaque() - 10);
-                            System.out.println("El ataque de " + n2.getPokemon().getNombre() + " a sido poco efectivo");
-                        }
-                        else if (n2.getPokemon().getTipo() == "agua" && n1.getPokemon().getTipo() == "electrico") {
-                            n2.getPokemon().setAtaque(n2.getPokemon().getAtaque() - 10);
-                            System.out.println("El ataque de " + n2.getPokemon().getNombre() + " a sido poco efectivo");
-                        }
-                        else if (n2.getPokemon().getTipo() == "electrico" && n1.getPokemon().getTipo() == "agua") {
-                            n2.getPokemon().setAtaque(n2.getPokemon().getAtaque() + 20);
-                            System.out.println("El ataque de " + n2.getPokemon().getNombre() + " a sido super efectivo");
-                        }
-                        else{
-                            System.err.println(n1.getPokemon().getNombre() + " a evitado el ataque de " + n2.getPokemon().getNombre());
-                        }
-                    }
-                    else{
-                        int sucORfail = n2.getPokemon().getHabilidad().Activartefecto();
-                        System.out.println(n2.getNombre() + " va a usar la habilidad especial de su pokemon");
-                        try{Thread.sleep(1000);
-                        } catch (InterruptedException e){
-                            e.printStackTrace();
-                        }
-                        n2.getPokemon().setAtaque(n2.getPokemon().getAtaque() + sucORfail);
-                        if (sucORfail != 0) {
-                            System.out.println(n2.getPokemon().getNombre() + " a activado su habilidad especial " + "¡"+ n2.getPokemon().getHabilidad().getNombre() + "!");
-                        }
-                        else {
-                            System.out.println(n2.getPokemon().getNombre() + " a fallado en activar su habilidad especial");
-                        }
-                    }
-                    int TP5 = n1.getPokemon().getAtaque() + n1.getPokemon().getDefensa();
-                    int TP6 = n2.getPokemon().getAtaque() + n2.getPokemon().getDefensa();
-                    try{Thread.sleep(1000);
-                    } catch (InterruptedException e){
-                        e.printStackTrace();
-                    }
-                    System.out.println("El poder total de " + n1.getPokemon().getNombre() + " es de " + TP5);
-                    System.out.println("El poder total de " + n2.getPokemon().getNombre() + " es de " + TP6);
-                    try{Thread.sleep(1000);
-                    } catch (InterruptedException e){
-                        e.printStackTrace();
-                    }
-                    if(TP5 > TP6){
+                    if(ganador.getNombre() == n1.getPokemon().getNombre()){
                         System.out.println("El ganor de la ronda es " + n1.getNombre());
                         N1ganado += 1 ;
                     }
-                    else if (TP5 < TP6){
+                    else if (ganador.getNombre() == n2.getPokemon().getNombre()){
                         System.out.println("El ganor de la ronda es " + n2.getNombre());
                         N2ganado += 1;
                     }
-                    else{
-                        System.out.println("La ronda terminó en un empate");
                     }
                     break;
 
@@ -605,153 +320,57 @@ public class Main {
                     System.out.println("**************************************");
                     System.out.println("Ronda 4:");
                     System.out.println(n1.getNombre()+ " a elegido a " + n1.getPokemon().getNombre());
-                    try{Thread.sleep(1000);
-                    } catch (InterruptedException e){
-                        e.printStackTrace();
-                    }
+                    try{Thread.sleep(1500);
+                        } catch (InterruptedException e){
+                            e.printStackTrace();
+                        }
                     System.out.println(n2.getNombre()+ " a elegido a " + n2.getPokemon().getNombre());
-                    try{Thread.sleep(1000);
-                    } catch (InterruptedException e){
-                        e.printStackTrace();
-                    }
-                    int d7 = n.nextInt(100)+1;
-                    if (d7<51) {
-                        System.out.println(n1.getNombre() + " va a atacar al pokemon de " + n2.getNombre());
-                        try{Thread.sleep(1500);
+                    try{Thread.sleep(1500);
                         } catch (InterruptedException e){
                             e.printStackTrace();
                         }
-                        if (n1.getPokemon().getTipo() == "fuego" && n2.getPokemon().getTipo() == "planta") {
-                            n1.getPokemon().setAtaque(n1.getPokemon().getAtaque() + 20);
-                            System.out.println("El ataque de " + n1.getPokemon().getNombre() + " a sido super efectivo");
+                    accion1 = n.nextInt(100)+1;
+                    accion2 = n.nextInt(100)+1;
+                    sucORfail1 = n1.getPokemon().getHabilidad().Activartefecto();
+                    sucORfail2 = n2.getPokemon().getHabilidad().Activartefecto();
+                    //Entrenador 1
+                   System.out.println(controlador.decision(accion1, n1, n2));
+                    try{Thread.sleep(1500);
+                        } catch (InterruptedException e){
+                            e.printStackTrace();
                         }
-                        else if (n1.getPokemon().getTipo() == "fuego" && n2.getPokemon().getTipo() == "agua") {
-                            n1.getPokemon().setAtaque(n1.getPokemon().getAtaque() - 10);
-                            System.out.println("El ataque de " + n1.getPokemon().getNombre() + " a sido poco efectivo");
+                    System.out.println(controlador.Efectividadaccion(accion1, n1.getPokemon(), n2.getPokemon(), sucORfail1));
+                    try{Thread.sleep(1500);
+                        } catch (InterruptedException e){
+                            e.printStackTrace();
                         }
-                        else if (n1.getPokemon().getTipo() == "planta" && n2.getPokemon().getTipo() == "agua") {
-                            n1.getPokemon().setAtaque(n1.getPokemon().getAtaque() + 20);
-                            System.out.println("El ataque de " + n1.getPokemon().getNombre() + " a sido super efectivo");
+                    //Entrenador 2
+                    System.out.println(controlador.decision(accion2, n2, n1));
+                    try{Thread.sleep(1500);
+                        } catch (InterruptedException e){
+                            e.printStackTrace();
                         }
-                        else if (n1.getPokemon().getTipo() == "planta" && n2.getPokemon().getTipo() == "fuego") {
-                            n1.getPokemon().setAtaque(n1.getPokemon().getAtaque() - 10);
-                            System.out.println("El ataque de " + n1.getPokemon().getNombre() + " a sido poco efectivo");
+                    System.out.println(controlador.Efectividadaccion(accion2, n2.getPokemon(), n1.getPokemon(), sucORfail2));
+                    try{Thread.sleep(1500);
+                        } catch (InterruptedException e){
+                            e.printStackTrace();
                         }
-                        else if (n1.getPokemon().getTipo() == "agua" && n2.getPokemon().getTipo() == "fuego") {
-                            n1.getPokemon().setAtaque(n1.getPokemon().getAtaque() + 20);
-                            System.out.println("El ataque de " + n1.getPokemon().getNombre() + " a sido super efectivo");
-                        }
-                        else if (n1.getPokemon().getTipo() == "agua" && n2.getPokemon().getTipo() == "planta") {
-                            n1.getPokemon().setAtaque(n1.getPokemon().getAtaque() - 10);
-                            System.out.println("El ataque de " + n1.getPokemon().getNombre() + " a sido poco efectivo");
-                        }
-                        else if (n1.getPokemon().getTipo() == "agua" && n2.getPokemon().getTipo() == "electrico") {
-                            n1.getPokemon().setAtaque(n1.getPokemon().getAtaque() - 10);
-                            System.out.println("El ataque de " + n1.getPokemon().getNombre() + " a sido poco efectivo");
-                        }
-                        else if (n1.getPokemon().getTipo() == "electrico" && n2.getPokemon().getTipo() == "agua") {
-                            n1.getPokemon().setAtaque(n1.getPokemon().getAtaque() + 20);
-                            System.out.println("El ataque de " + n1.getPokemon().getNombre() + " a sido super efectivo");
-                        }
-                        else{
-                            System.err.println(n2.getPokemon().getNombre() + " a evitado el ataque de " + n1.getPokemon().getNombre());
-                        }
+                    //Ver el poder de los pokemons
+                    System.out.println(controlador.Podertotal(accion1, accion2, n1.getPokemon(), n2.getPokemon(), sucORfail1, sucORfail2));
+                    //Ver el ganador
+                    ganador = controlador.jugarRonda(accion1, accion2, n1.getPokemon(), n2.getPokemon(), sucORfail1, sucORfail2);
+                    if (ganador == null) {
+                        System.out.println("La ronda terminó en un empate");
                     }
                     else{
-                        int sucORfail = n1.getPokemon().getHabilidad().Activartefecto();
-                        System.out.println(n1.getNombre() + " va a usar la habilidad especial de su pokemon");
-                        try{Thread.sleep(1500);
-                        } catch (InterruptedException e){
-                            e.printStackTrace();
-                        }
-                        n1.getPokemon().setAtaque(n1.getPokemon().getAtaque() + sucORfail);
-                        if (sucORfail != 0) {
-                            System.out.println(n1.getPokemon().getNombre() + " a activado su habilidad especial " + "¡"+ n1.getPokemon().getHabilidad().getNombre() + "!");
-                        }
-                        else {
-                            System.out.println(n1.getPokemon().getNombre() + " a fallado en activar su habilidad especial");
-                        }
-                    }
-                int d8 = n.nextInt(100)+1;
-                if (d8<51) {
-                    System.out.println(n2.getNombre() + " va a atacar al pokemon de " + n1.getNombre());
-                    try{Thread.sleep(1500);
-                        } catch (InterruptedException e){
-                            e.printStackTrace();
-                        }
-                        if (n2.getPokemon().getTipo() == "fuego" && n1.getPokemon().getTipo() == "planta") {
-                            n2.getPokemon().setAtaque(n2.getPokemon().getAtaque() + 20);
-                            System.out.println("El ataque de " + n2.getPokemon().getNombre() + " a sido super efectivo");
-                        }
-                        else if (n2.getPokemon().getTipo() == "fuego" && n1.getPokemon().getTipo() == "agua") {
-                            n2.getPokemon().setAtaque(n2.getPokemon().getAtaque() - 10);
-                            System.out.println("El ataque de " + n2.getPokemon().getNombre() + " a sido poco efectivo");
-                        }
-                        else if (n2.getPokemon().getTipo() == "planta" && n1.getPokemon().getTipo() == "agua") {
-                            n2.getPokemon().setAtaque(n2.getPokemon().getAtaque() + 20);
-                            System.out.println("El ataque de " + n2.getPokemon().getNombre() + " a sido super efectivo");
-                        }
-                        else if (n2.getPokemon().getTipo() == "planta" && n1.getPokemon().getTipo() == "fuego") {
-                            n2.getPokemon().setAtaque(n2.getPokemon().getAtaque() - 10);
-                            System.out.println("El ataque de " + n2.getPokemon().getNombre() + " a sido poco efectivo");
-                        }
-                        else if (n2.getPokemon().getTipo() == "agua" && n1.getPokemon().getTipo() == "fuego") {
-                            n2.getPokemon().setAtaque(n2.getPokemon().getAtaque() + 20);
-                            System.out.println("El ataque de " + n2.getPokemon().getNombre() + " a sido super efectivo");
-                        }
-                        else if (n2.getPokemon().getTipo() == "agua" && n1.getPokemon().getTipo() == "planta") {
-                            n2.getPokemon().setAtaque(n2.getPokemon().getAtaque() - 10);
-                            System.out.println("El ataque de " + n2.getPokemon().getNombre() + " a sido poco efectivo");
-                        }
-                        else if (n2.getPokemon().getTipo() == "agua" && n1.getPokemon().getTipo() == "electrico") {
-                            n2.getPokemon().setAtaque(n2.getPokemon().getAtaque() - 10);
-                            System.out.println("El ataque de " + n2.getPokemon().getNombre() + " a sido poco efectivo");
-                        }
-                        else if (n2.getPokemon().getTipo() == "electrico" && n1.getPokemon().getTipo() == "agua") {
-                            n2.getPokemon().setAtaque(n2.getPokemon().getAtaque() + 20);
-                            System.out.println("El ataque de " + n2.getPokemon().getNombre() + " a sido super efectivo");
-                        }
-                        else{
-                            System.err.println(n1.getPokemon().getNombre() + " a evitado el ataque de " + n2.getPokemon().getNombre());
-                        }
-                    }
-                    else{
-                        int sucORfail = n2.getPokemon().getHabilidad().Activartefecto();
-                        System.out.println(n2.getNombre() + " va a usar la habilidad especial de su pokemon");
-                        try{Thread.sleep(1500);
-                        } catch (InterruptedException e){
-                            e.printStackTrace();
-                        }
-                        n2.getPokemon().setAtaque(n2.getPokemon().getAtaque() + sucORfail);
-                        if (sucORfail != 0) {
-                            System.out.println(n2.getPokemon().getNombre() + " a activado su habilidad especial " + "¡"+ n2.getPokemon().getHabilidad().getNombre() + "!");
-                        }
-                        else {
-                            System.out.println(n2.getPokemon().getNombre() + " a fallado en activar su habilidad especial");
-                        }
-                    }
-                    int TP7 = n1.getPokemon().getAtaque() + n1.getPokemon().getDefensa();
-                    int TP8 = n2.getPokemon().getAtaque() + n2.getPokemon().getDefensa();
-                    try{Thread.sleep(1500);
-                        } catch (InterruptedException e){
-                            e.printStackTrace();
-                        }
-                    System.out.println("El poder total de " + n1.getPokemon().getNombre() + " es de " + TP7);
-                    System.out.println("El poder total de " + n2.getPokemon().getNombre() + " es de " + TP8);
-                    try{Thread.sleep(1500);
-                        } catch (InterruptedException e){
-                            e.printStackTrace();
-                        }
-                    if(TP7 > TP8){
+                    if(ganador.getNombre() == n1.getPokemon().getNombre()){
                         System.out.println("El ganor de la ronda es " + n1.getNombre());
                         N1ganado += 1 ;
                     }
-                    else if (TP7 < TP8){
+                    else if (ganador.getNombre() == n2.getPokemon().getNombre()){
                         System.out.println("El ganor de la ronda es " + n2.getNombre());
                         N2ganado += 1;
                     }
-                    else{
-                        System.out.println("La ronda terminó en un empate");
                     }
                     break;
             }
